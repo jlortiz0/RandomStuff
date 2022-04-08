@@ -1,0 +1,8 @@
+name: Disenchant
+main: org.jlortiz.Disenchant
+api-version: 1.13
+version: 1.0
+author: jlortiz
+commands:
+    disenchant:
+        aliases: [stripenchants,tomify,reimbue]
