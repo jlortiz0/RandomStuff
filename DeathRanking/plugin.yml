@@ -1,0 +1,13 @@
+name: DeathRanking
+author: jlortiz
+description: Keeps a death tally.
+version: 1.2
+api-version: 1.13
+main: org.jlortiz.DeathRanking
+commands:
+    deaths:
+        aliases: [death, mydeaths]
+        description: See how many times you have died.
+    deathtop:
+        aliases: [dr, deathrank, deathstop, deathsrank]
+        description: Server-wide death rankings.
