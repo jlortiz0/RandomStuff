@@ -1,0 +1,99 @@
+package main
+
+import (
+	"fmt"
+	"image/color"
+
+	"github.com/veandco/go-sdl2/sdl"
+)
+
+var textFieldBG = sdl.Color{R: 0x27, G: 0x28, B: 0x22, A: 255}
+var textFieldCurLine = sdl.Color{R: 0x5b, G: 0x5a, B: 0x4b, A: 255}
+
+type TextField struct {
+	text                                       []string
+	curLine                                    int
+	linePos                                    int
+	selStart, selEnd, selLineStart, selLineEnd int
+	errorLine                                  int
+	shouldRedraw                               bool
+	scrollTop                                  int
+}
+
+func makeTextField() *TextField {
+	f := new(TextField)
+	f.errorLine = -1
+	f.text = make([]string, 2, 128)
+	f.text[0] = "abcd"
+	return f
+}
+
+func drawTextField(field *TextField, loc sdl.Rect, output *sdl.Renderer) {
+	pixFmt, _ := window.GetPixelFormat()
+	surf, err := sdl.CreateRGBSurfaceWithFormat(0, loc.W, loc.H, 32, pixFmt)
+	if err != nil {
+		panic(err)
+	}
+	surf.FillRect(nil, 0x272822)
+	for k := 0; k < 8; k++ {
+		for n := 0; n < 8-k; n++ {
+			surf.Set(k, n, color.Transparent)
+			surf.Set(int(loc.W)-k-1, n, color.Transparent)
+			surf.Set(int(loc.W)-k-1, int(loc.H)-n-1, color.Transparent)
+			surf.Set(k, int(loc.H)-n-1, color.Transparent)
+		}
+	}
+	if field.scrollTop < 0 {
+		field.scrollTop = 0
+	} else if int(loc.H/fHeight) > len(field.text) {
+		field.scrollTop = 0
+	} else if len(field.text)-field.scrollTop < int(loc.H/fHeight) {
+		field.scrollTop = len(field.text) - int(loc.H/fHeight)
+	}
+	for i := field.scrollTop; i-field.scrollTop < int(loc.H/fHeight) && i < len(field.text); i++ {
+		if i == field.curLine {
+			drawText(fmt.Sprintf("% 5d  ", i+1), surf, 0, 6+int32(i-field.scrollTop)*fHeight, textFieldCurLine, COLOR_WHITE)
+		} else {
+			drawText(fmt.Sprintf("% 5d  ", i+1), surf, 0, 6+int32(i-field.scrollTop)*fHeight, textFieldBG, COLOR_WHITE)
+		}
+		if field.text[i] != "" {
+			drawText(field.text[i], surf, 95, 6+int32(i-field.scrollTop)*fHeight, textFieldBG, COLOR_WHITE)
+		}
+	}
+	texture, err := output.CreateTextureFromSurface(surf)
+	if err != nil {
+		panic(err)
+	}
+	output.Copy(texture, nil, &loc)
+}
+
+func handleTextKey(field *TextField, key sdl.Keycode) {
+	switch key {
+	case sdl.K_LEFT:
+		if field.linePos != 0 {
+			field.linePos--
+		} else if field.curLine != 0 {
+			field.curLine--
+		}
+	case sdl.K_RIGHT:
+		if field.linePos < len(field.text[field.curLine]) {
+			field.linePos++
+		} else if field.curLine < len(field.text)-1 {
+			field.curLine++
+		}
+	case sdl.K_UP:
+		if field.curLine != 0 {
+			field.curLine--
+			if field.linePos >= len(field.text[field.curLine]) {
+				field.linePos = len(field.text[field.curLine])
+			}
+		}
+	case sdl.K_DOWN:
+		if field.linePos < len(field.text[field.curLine]) {
+			field.curLine++
+			if field.linePos >= len(field.text[field.curLine]) {
+				field.linePos = len(field.text[field.curLine])
+			}
+		}
+	}
+}
