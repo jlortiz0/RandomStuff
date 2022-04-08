@@ -1,0 +1,17 @@
+name: PerWorldWarps
+author: jlortiz
+description: Separates warps by world.
+version: 1.0
+api-version: 1.13
+main: org.jlortiz.PerWorldWarps
+softdepend: [Essentials]
+commands:
+    warp:
+        permission: essentials.warp
+        aliases: [warps]
+    setwarp:
+        permission: essentials.setwarp
+        usage: /<command> <warp>
+    delwarp:
+        permission: essentials.delwarp
+        usage: /<command> <warp>
