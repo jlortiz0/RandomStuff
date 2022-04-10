@@ -1,7 +1,7 @@
 /**
  * @name ChannelLogger
  * @author jlortiz
- * @version 1.1.2
+ * @version 1.1.3
  * @description Lets you download messages from a channel
  */
 
@@ -10,7 +10,7 @@ module.exports = (_ => {
         "info": {
             "name": "ChannelLogger",
             "author": "jlortiz",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "description": "Lets you download messages from a channel"
         }
     };
@@ -98,7 +98,7 @@ module.exports = (_ => {
                 const endpoints = BDFDB.ModuleUtils.findByProperties("Endpoints").Endpoints;
                 let fd = "Discord Text Archive created on ";
                 fd += BDFDB.DiscordObjects.Timestamp().format("MMM D YYYY HH:mm");
-                fd += " by jlortiz's ChannelLogger\n";
+                fd += " by jlortiz's ChannelLogger\n\n";
                 let nicks = new Map();
                 let dayOfYear = 0;
                 const promiseExceptHelper = function (result) {
@@ -181,7 +181,7 @@ module.exports = (_ => {
                     promise.then(promiseHelper, promiseExceptHelper);
                 }
                 if (nextMsg != "0") {
-                    nextMsg = (nextMsg - 1).toString()
+                    nextMsg = (nextMsg - (1 << 22)).toString()
                 }
                 let promise = requests.get({
                     url: endpoints.MESSAGES(channel.id) + "?after="+nextMsg+"&limit=100"
