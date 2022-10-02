@@ -21,7 +21,7 @@ type ffmpegReader struct {
 
 func newFfmpegReader(path string) *ffmpegReader {
 	ffmpeg := new(ffmpegReader)
-	ffmpeg.Cmd = exec.Command("ffmpeg", "-stream_loop", "-1", "-i", path, "-r", "15",
+	ffmpeg.Cmd = exec.Command("ffmpeg", "-stream_loop", "-1", "-i", path, "-r", "30",
 		"-pix_fmt", "gray", "-vcodec", "rawvideo", "-f", "image2pipe", "-loglevel", "warning", "pipe:1")
 	f, err := ffmpeg.StdoutPipe()
 	if err != nil {
