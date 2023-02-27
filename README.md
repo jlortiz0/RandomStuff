@@ -8,6 +8,7 @@ Different projects here may be licensed differently. Refer to the LICENSE file t
 
 ## Quick List
 
+ - AgeCounter - See account ages of everyone in a Discord server.
  - DeathRanking - See how many times you (and others) dug straight down.
  - Disenchant - Transfer enchantments from a weapon to a book.
  - NimbusMARS - A MIPS IDE modified to have dark mode and some other QoL things.
