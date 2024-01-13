@@ -11,6 +11,7 @@ Different projects here may be licensed differently. Refer to the LICENSE file t
  - AgeCounter - See account ages of everyone in a Discord server.
  - DeathRanking - See how many times you (and others) dug straight down.
  - Disenchant - Transfer enchantments from a weapon to a book.
+ - EmojiGrabber - Adds emojis from Discord servers that you are not in to the emoji picker. Not intended for general use
  - NimbusMARS - A MIPS IDE modified to have dark mode and some other QoL things.
  - mini-risc-v - An incomplete datapath analyzer for a simple RISC-V processor.
  - PerWorldWarps - Emulates Essentials' `/warp`, but separates warps by world.
